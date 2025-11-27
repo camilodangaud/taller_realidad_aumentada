@@ -1,13 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>realidad_aumentada</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Realidad Aumentada</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">realidad_aumentada</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content fullscreen>
+
+  <iframe
+  *ngIf="arSceneUrl"
+  [src]="arSceneUrl"
+  allow="camera *; microphone *; fullscreen *"
+  sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
+  allowfullscreen
+  scrolling="no">
+</iframe>
+
+
 </ion-content>
