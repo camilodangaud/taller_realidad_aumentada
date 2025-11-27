@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Scene</title>
+
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
+
+  <style>
+    body { margin: 0; overflow: hidden; }
+
+    .arjs-loader {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      background: rgba(0,0,0,.85);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 22px;
+    }
+
+    #hud {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      padding: 12px;
+      color: white;
+      font-family: sans-serif;
+      z-index: 99999;
+      pointer-events: none;
+    }
+
+    #status {
+      background: rgba(0,0,0,0.5);
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="arjs-loader" id="loader">Cargando escena AR...</div>
+
+  <div id="hud">
+    <div id="status">Buscando marcador…</div>
+  </div>
+
+  <a-scene
+    embedded
+    vr-mode-ui="enabled:false"
+    renderer="colorManagement: true"
+    arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: false;">
+
+    <a-marker id="marker-carro" type="pattern" url="assets/utiles/imagenes/pattern-carro.patt">
+      <a-image src="assets/utiles/imagenes/pattern-carro.png"
+               width="1.5" height="1.5"
+               rotation="-90 0 0">
+      </a-image>
+    </a-marker>
+
+    <a-marker id="marker-helicoptero" type="pattern" url="assets/utiles/imagenes/pattern-helicopter.patt">
+      <a-image src="assets/utiles/imagenes/pattern-helicopter.png"
+               width="1.5" height="1.5"
+               rotation="-90 0 0">
+      </a-image>
+    </a-marker>
+
+    <a-marker id="marker-robot" type="pattern" url="assets/utiles/imagenes/pattern-robot.patt">
+      <a-image src="assets/utiles/imagenes/pattern-robot.png"
+               width="1.5" height="1.5"
+               rotation="-90 0 0">
+      </a-image>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById("loader").style.display = "none", 1200);
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const selected = params.get("marker");
+
+    const allMarkers = [
+      "marker-carro",
+      "marker-helicoptero",
+      "marker-robot"
+    ];
+
+    allMarkers.forEach(id => {
+      if (id !== selected) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+      }
+    });
+
+    const active = document.getElementById(selected);
+    const status = document.getElementById("status");
+
+    if (active) {
+      active.addEventListener("markerFound", () => {
+        status.innerHTML = "Marcador detectado ✔️";
+      });
+
+      active.addEventListener("markerLost", () => {
+        status.innerHTML = "Buscando marcador…";
+      });
+    }
+  </script>
+
+</body>
+</html>

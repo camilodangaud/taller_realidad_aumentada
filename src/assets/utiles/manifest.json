@@ -1,0 +1,22 @@
+{
+  "markers": [
+    {
+      "id": "carro",
+      "label": "Carro",
+      "pattern": "assets/utiles/imagenes/pattern-carro.patt",
+      "image": "assets/utiles/imagenes/pattern-carro.png"
+    },
+    {
+      "id": "helicoptero",
+      "label": "Helicóptero",
+      "pattern": "assets/utiles/imagenes/pattern-helicopter.patt",
+      "image": "assets/utiles/imagenes/pattern-helicopter.png"
+    },
+    {
+      "id": "robot",
+      "label": "Robot",
+      "pattern": "assets/utiles/imagenes/pattern-robot.patt",
+      "image": "assets/utiles/imagenes/pattern-robot.png"
+    }
+  ]
+}

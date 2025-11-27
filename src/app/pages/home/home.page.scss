@@ -1,0 +1,34 @@
+.content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.loading {
+  margin-top: 60px;
+  text-align: center;
+  color: #666;
+}
+
+.preview {
+  width: 100%;
+  text-align: center;
+}
+
+.preview img {
+  width: 240px;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.selector ion-item {
+  --padding-start: 10px;
+  --inner-padding-end: 10px;
+}
+
+.btn-container {
+  margin-top: 20px;
+}

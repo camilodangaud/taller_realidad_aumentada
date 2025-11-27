@@ -1,58 +1,49 @@
-// -----------------------------
-// FILE: src/app/services/ar-config.service.ts
-// Reemplaza o añade este servicio (carga manifest y expone heroes).
-// -----------------------------
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-export interface HeroEntry {
+export interface MarkerEntry {
   id: string;
   label: string;
-  img: string;
+  pattern: string;
+  image: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArConfigService {
-  private manifestPath = 'assets/ar/manifest.json';
-  private heroes: HeroEntry[] = [];
+
+  private manifestPath = 'assets/utiles/manifest.json';
+  private markers: MarkerEntry[] = [];
 
   constructor(private http: HttpClient) {}
+  async loadManifest(): Promise<MarkerEntry[]> {
+    if (this.markers.length) return this.markers;
 
-  // Carga el manifest y guarda heroes; devuelve la lista
-  async loadManifest(): Promise<HeroEntry[]> {
-    if (this.heroes.length) return this.heroes;
     try {
       const res: any = await this.http.get(this.manifestPath).toPromise();
-      this.heroes = res?.heroes || [];
-      return this.heroes;
+      this.markers = res?.markers || [];
+      return this.markers;
     } catch (err) {
       console.error('Error loading AR manifest', err);
-      this.heroes = [];
-      return this.heroes;
+      this.markers = [];
+      return this.markers;
     }
   }
 
-  getHeroes(): HeroEntry[] {
-    return this.heroes;
+  getMarkers(): MarkerEntry[] {
+    return this.markers;
   }
 
-  // Mantén tus métodos originales (compatibilidad)
   private currentTarget: string | null = null;
-  setCurrentTarget(target: string) { this.currentTarget = target; }
-  getCurrentTarget() { return this.currentTarget; }
-
-  // Mapa simple existente (no lo toco)
-  private experienceMap: Record<string, { marker: string }> = {
-    'hiro-box':   { marker: 'marker-hiro' },
-    'hiro-model': { marker: 'marker-hiro-model' },
-    'hiro-square':{ marker: 'marker-hiro-square' },
-    'pan-square':     { marker: 'marker-pan' },
-    'kanji':      { marker: 'marker-kanji' }
-  };
+  setCurrentTarget(target: string) { 
+    this.currentTarget = target; 
+  }
+  getCurrentTarget() { 
+    return this.currentTarget; 
+  }
 
   getMarkerIdFor(target: string): string {
-    return this.experienceMap[target]?.marker || 'marker-hiro';
+    return `marker-${target}`;
   }
 }
