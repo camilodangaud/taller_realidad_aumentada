@@ -7,16 +7,6 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
-
-  <iframe
-  *ngIf="arSceneUrl"
-  [src]="arSceneUrl"
-  allow="camera *; microphone *; fullscreen *"
-  sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
-  allowfullscreen
-  scrolling="no">
-</iframe>
-
-
+<ion-content>
+  <div id="ar-container"></div>
 </ion-content>
