@@ -17,6 +17,7 @@ export class ArConfigService {
   private markers: MarkerEntry[] = [];
 
   constructor(private http: HttpClient) {}
+
   async loadManifest(): Promise<MarkerEntry[]> {
     if (this.markers.length) return this.markers;
 
@@ -36,14 +37,17 @@ export class ArConfigService {
   }
 
   private currentTarget: string | null = null;
+
   setCurrentTarget(target: string) { 
     this.currentTarget = target; 
   }
+
   getCurrentTarget() { 
     return this.currentTarget; 
   }
 
-  getMarkerIdFor(target: string): string {
-    return `marker-${target}`;
+  // 🟢 NUEVO: obtener el objeto marker completo
+  getMarkerById(id: string): MarkerEntry | undefined {
+    return this.markers.find(m => m.id === id);
   }
 }

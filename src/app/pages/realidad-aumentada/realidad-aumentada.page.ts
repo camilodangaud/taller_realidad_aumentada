@@ -17,7 +17,7 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const targetId = this.arConfig.getCurrentTarget();
 
     if (!targetId) {
@@ -25,14 +25,22 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
       return;
     }
 
-    const markerId = this.arConfig.getMarkerIdFor(targetId);
-    console.log('🎯 Loading AR for:', markerId);
+    // 🟢 Obtener el marker real del manifest.json
+    await this.arConfig.loadManifest();
+    const markerData = this.arConfig.getMarkerById(targetId);
 
-    this.loadARScene(markerId);
+    if (!markerData) {
+      console.error("❌ Marker no encontrado en manifest:", targetId);
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    console.log('🎯 Cargando patrón:', markerData.pattern);
+
+    this.loadARScene(markerData.pattern);
   }
 
-  loadARScene(markerId: string) {
-    // Cargar A-Frame
+  loadARScene(patternUrl: string) {
     this.loadScript('https://aframe.io/releases/1.6.0/aframe.min.js')
       .then(() => {
         console.log('✅ A-Frame loaded');
@@ -41,7 +49,7 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
       .then(() => {
         console.log('✅ AR.js loaded');
         setTimeout(() => {
-          this.createScene(markerId);
+          this.createScene(patternUrl);
         }, 500);
       })
       .catch(err => {
@@ -65,7 +73,8 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
     });
   }
 
-  createScene(markerId: string) {
+  // 🟢 Escena usando el patrón correcto del manifest
+  createScene(patternUrl: string) {
     const container = document.getElementById('ar-container');
     if (!container) return;
 
@@ -75,7 +84,8 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
     scene.setAttribute('vr-mode-ui', 'enabled: false');
 
     const marker = document.createElement('a-marker');
-    marker.setAttribute('preset', 'hiro');
+    marker.setAttribute('type', 'pattern');
+    marker.setAttribute('url', patternUrl);
 
     const box = document.createElement('a-box');
     box.setAttribute('position', '0 0.5 0');
@@ -92,7 +102,7 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
     scene.appendChild(camera);
     container.appendChild(scene);
 
-    console.log('✅ Scene created');
+    console.log('✅ Escena creada con patrón:', patternUrl);
   }
 
   ngOnDestroy() {
