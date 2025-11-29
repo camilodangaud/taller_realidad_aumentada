@@ -1,44 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Marcadores AR</ion-title>
+    <ion-title>Realidad Aumentada</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  
-  <div class="loading" *ngIf="loadingMarkers">
-    <ion-spinner></ion-spinner>
-    <p>Cargando marcadores...</p>
-  </div>
-
-  <div class="content" *ngIf="!loadingMarkers">
-
-    <div class="preview">
-      <img 
-        *ngIf="getSelectedMarkerImg()" 
-        [src]="getSelectedMarkerImg()" 
-        alt="preview"
-      >
-      <p *ngIf="!getSelectedMarkerImg()">Selecciona un marcador</p>
-    </div>
-
-    <div class="selector">
-      <ion-list>
-        <ion-radio-group [(ngModel)]="selectedMarkerId">
-          <ion-item *ngFor="let m of markers">
-            <ion-label>{{ m.label }}</ion-label>
-            <ion-radio slot="start" [value]="m.id"></ion-radio>
-          </ion-item>
-        </ion-radio-group>
-      </ion-list>
-    </div>
-
-    <div class="btn-container">
-      <ion-button expand="full" (click)="openAR()" [disabled]="!selectedMarkerId">
-        Abrir Realidad Aumentada
-      </ion-button>
-    </div>
-
-  </div>
-
+  <ion-button expand="full" (click)="openAR()">
+    Abrir camara de Realidad Aumentada
+  </ion-button>
 </ion-content>

@@ -25,12 +25,11 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
       return;
     }
 
-    // 🟢 Obtener el marker real del manifest.json
     await this.arConfig.loadManifest();
     const markerData = this.arConfig.getMarkerById(targetId);
 
     if (!markerData) {
-      console.error("❌ Marker no encontrado en manifest:", targetId);
+      console.error(" Marker no encontrado en manifest:", targetId);
       this.router.navigate(['/home']);
       return;
     }
@@ -43,17 +42,17 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
   loadARScene(patternUrl: string) {
     this.loadScript('https://aframe.io/releases/1.6.0/aframe.min.js')
       .then(() => {
-        console.log('✅ A-Frame loaded');
+        console.log('A-Frame loaded');
         return this.loadScript('https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js');
       })
       .then(() => {
-        console.log('✅ AR.js loaded');
+        console.log('AR.js loaded');
         setTimeout(() => {
           this.createScene(patternUrl);
         }, 500);
       })
       .catch(err => {
-        console.error('❌ Error loading scripts:', err);
+        console.error('Error loading scripts:', err);
       });
   }
 
@@ -72,8 +71,6 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
       document.head.appendChild(script);
     });
   }
-
-  // 🟢 Escena usando el patrón correcto del manifest
   createScene(patternUrl: string) {
     const container = document.getElementById('ar-container');
     if (!container) return;
@@ -102,7 +99,7 @@ export class RealidadAumentadaPage implements OnInit, OnDestroy {
     scene.appendChild(camera);
     container.appendChild(scene);
 
-    console.log('✅ Escena creada con patrón:', patternUrl);
+    console.log(' Escena creada con patrón:', patternUrl);
   }
 
   ngOnDestroy() {

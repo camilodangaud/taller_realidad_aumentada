@@ -46,7 +46,6 @@ export class ArConfigService {
     return this.currentTarget; 
   }
 
-  // 🟢 NUEVO: obtener el objeto marker completo
   getMarkerById(id: string): MarkerEntry | undefined {
     return this.markers.find(m => m.id === id);
   }
